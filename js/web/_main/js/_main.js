@@ -721,7 +721,8 @@ GetFights = () =>{
 				// contributeForgePoints often returns rankings without CityMapService.updateEntity in the same reply.
 				// Refresh calculators from cached map data so FP/rank rows update immediately; a later updateEntity still merges via else branch.
 				if (contributeForgePoints != null && !IsLevelScroll) {
-					if ($('#costCalculator').length > 0 && Calculator.CityMapEntity !== undefined) {
+					// Only refresh the foreign-GB cost calculator; stale Calculator.CityMapEntity from a past visit must not get own-GB rankings.
+					if ($('#costCalculator').length > 0 && Calculator.CityMapEntity !== undefined && Calculator.CityMapEntity.player_id !== ExtPlayerID) {
 						Calculator.Rankings = Rankings;
 						Calculator.Show();
 					}
